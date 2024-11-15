@@ -6,6 +6,9 @@ function isClass(obj) {
 function isExclusiveFunction(obj) {
     return typeof obj === "function" && !isClass(obj);
 }
+function isRegexp(obj) {
+    return obj instanceof RegExp;
+}
 
 /**
  * @param {string} rule 
@@ -15,7 +18,6 @@ function isExclusiveFunction(obj) {
 function validateArg(rule, arg) {
     // If it's a class, then return whether or not the argument is an instance of the class
     if (isClass(rule)) return arg instanceof rule;
-    // If it's a function, then return whether or not the argument passes the function
 
     let lastCharacter = rule.charAt(rule.length - 1);
     let nullable = lastCharacter == "?";
@@ -28,17 +30,17 @@ function validateArg(rule, arg) {
         case "string":
         case "boolean":
         case "bigint":
-            return typeof arg === rule;
+            return typeof arg === unquestioned;
         case "array":
             return Array.isArray(arg);
         case "hash":
-            return typeof x === "object" && !Array.isArray(arg) && x !== null;
+            return typeof arg === "object" && !Array.isArray(arg) && !isRegexp(arg) && arg !== null;
         case "object":
-            return typeof x === "object" && x !== null;
-        case "null":
+            return typeof arg === "object" && !isRegexp(arg) && arg !== null;
+        case "nulled":
             return arg === null || arg === undefined;
         case "regexp":
-            return arg instanceof RegExp;
+            return isRegexp(arg);
         case "function":
             return isExclusiveFunction(arg);
         case "class":
@@ -95,7 +97,7 @@ class Match {
         return this.validator;
     }
     run() {
-        this.func();
+        return this.func();
     }
     /**
      * @param {...any[]} args
@@ -138,17 +140,12 @@ class Polytech {
     evaluate(...args) {
         for (let match of this.tests) {
             if (match.test(...args)) {
-                match.run();
-                return;
+                return match.run();
             }
         }
 
-        if (this.fallback_function != null) this.fallback_function();
+        if (this.fallback_function != null) return this.fallback_function();
     };
 }
 
-const Poly = new Polytech();
-
-Poly.match('string?').set(() => console.log('matchnig string')).
-    match(['regexp', 'null']).set(() => console.log('matchnig regex')).
-    fallback(() => console.log("falling back")).evaluate(/9/);
+module.exports = Polytech;

@@ -16,7 +16,8 @@
 
  */
 
-type Primitive = "string" | "number" | "boolean" | "bigint" | "array" | "hash" | "object" | "null" | "regexp" | "function" | "class" | "functional";
+type Primitive = "string" | "number" | "boolean" | "bigint" | "array" | "hash" | "object" | "nulled" | "regexp" | "function" | "class" | "functional"
+                | "string?" | "number?" | "boolean?" | "bigint?" | "array?" | "hash?" | "object?" | "nulled?" | "regexp?" | "function?" | "class?" | "functional?";
 type Arrayable<T> = T | T[];
 type ArgumentMatch = Primitive | /* Wildcard */ "*" | class | ((arg: any) => boolean);
 

@@ -1,0 +1,31 @@
+{
+  "name": "@pooch63/polytech",
+  "version": "0.1.0",
+  "description": "A library to create polymorphic functions without the headache of TypeScript unions",
+  "main": "polytech.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pooch63/Polytech.git"
+  },
+  "keywords": [
+    "polymorphism",
+    "typescript",
+    "javascript",
+    "validation",
+    "type",
+    "types"
+  ],
+  "author": "Kiyaan Pillai",
+  "license": "MIT",
+  "types": "./polytech.d.ts",
+  "bugs": {
+    "url": "https://github.com/Pooch63/Polytech/issues"
+  },
+  "homepage": "https://github.com/Pooch63/Polytech#readme",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
