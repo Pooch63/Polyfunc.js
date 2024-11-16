@@ -429,3 +429,24 @@ describe("Multiple rules work", () => {
         ).toBe("custom | string?");
     });
 });
+
+describe("Argument passing works", () => {
+    test("3 arguments", () => {
+        expect(
+            Polyfunc.match('number', 'number', 'number')
+                .set((a, b, c) => a * b - c)
+                .evaluate(1, 2, 3)
+        ).toBe(-1);
+    });
+    test("Multiple argument counts", () => {
+        function poly(a, b, c) {
+            return Polyfunc.match('number').set((a) => a * a * a)
+                .match('number', 'number').set((a, b) => a * a * b)
+                .match('number', 'number', 'number').set((a, b, c) => a * b * c)
+                .evaluate(a, b, c);
+        }
+        expect(poly(3)).toBe(27);
+        expect(poly(3, 4)).toBe(36);
+        expect(poly(3, 4, 5)).toBe(60);
+    })
+});

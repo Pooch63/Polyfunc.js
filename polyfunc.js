@@ -61,7 +61,12 @@ function validate(schema, args) {
     // Values are allowed to be nullable, so the schema is allowed to
     // be longer than the arguments, but the arguments should NEVER be longer
     // than the schema
-    if (schema.length < args.length) return false;
+    if (schema.length < args.length) {
+        // If everything is just null, we can remove it
+        while (args.length > 0 && args[args.length - 1] == undefined) args.pop();
+        // if there are STILL more arguments that the schema specified, then we return
+        if (schema.length < args.length) return false;
+    }
 
     for (let ind = 0; ind < schema.length; ind++) {
         const arg = args[ind];
@@ -86,6 +91,7 @@ class Match {
         this.validator = validator;
         this.schema = schema;
         // Will eventually become a function
+        // Is called with the arguments that get evaulated
         this.func = null;
     }
 
@@ -97,8 +103,8 @@ class Match {
         this.validator.pushTest(this);
         return this.validator;
     }
-    run() {
-        return this.func();
+    run(...args) {
+        return this.func(...args);
     }
     /**
      * @param {...any[]} args
@@ -149,7 +155,7 @@ class Polyfunc {
     evaluate(...args) {
         for (let match of this.tests) {
             if (match.test(...args)) {
-                return match.run();
+                return match.run(...args);
             }
         }
 

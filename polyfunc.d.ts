@@ -2,12 +2,13 @@
  * Example usage:
     function test(...args) {
         Polyfunc.match('string').set(() => console.log("string was provided"))
-            .match('null').set(() => console.log("null was provided"))
+            .match('object?').set(() => console.log("null or object was provided"))
             .match('*', ['number', 'boolean']).set(() => console.log("*, number | boolean was provided"))
             .fallback(() => console.log("whoops!")
             .evaluate(args);
     }
-    test(); // "null was provided"
+    test(); // "null or object was provided"
+    test({}); // "null or object was provided"
     test(null); // "string was provided"
     test("asd"); // string was provided
     test({}, 2); // "*, number was provided"
