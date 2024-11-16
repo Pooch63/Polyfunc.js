@@ -1,5 +1,5 @@
 const { describe, test, expect } = require("@jest/globals");
-const Polyfunc = require("../polytech.js");
+const Polyfunc = require("../polyfunc.js");
 
 describe("Normal types work", () => {
     test("Number", () => {
@@ -389,4 +389,43 @@ describe("Nullable types work", () => {
     });
 });
 
-describe("Multiple rules work", () => {});
+describe("Multiple rules work", () => {
+    class Custom {};
+    test("Primitives and nulls", () => {
+        expect(
+            new Polyfunc().
+            match(["string", "nulled"]).set(() => "string | null").
+            evaluate("string")
+        ).toBe("string | null");
+        expect(
+            new Polyfunc().
+            match(["string", "nulled"]).set(() => "string | null").
+            evaluate(null)
+        ).toBe("string | null");
+        expect(
+            new Polyfunc().
+            match(["symbol", "nulled"]).set(() => "symbol | null").
+            evaluate(Symbol(""))
+        ).toBe("symbol | null");
+    });
+    test("Different types", () => {
+        expect(
+            new Polyfunc().
+            match([Custom, "string"]).set(() => "custom | string").
+            evaluate(new Custom())
+        ).toBe("custom | string");
+        expect(
+            new Polyfunc().
+            match([Custom, "string"]).set(() => "custom | string").
+            fallback(() => "nothing").
+            evaluate(null)
+        ).toBe("nothing");
+    });
+    test("Nullable types mixed", () => {
+        expect(
+            new Polyfunc().
+            match([Custom, "string?"]).set(() => "custom | string?").
+            evaluate(null)
+        ).toBe("custom | string?");
+    });
+});

@@ -16,8 +16,8 @@ function isRegexp(obj) {
  * @return {boolean}
  */
 function validateArg(rule, arg) {
-    // If it's a class, then return whether or not the argument is an instance of the class
-    if (isClass(rule)) return arg instanceof rule;
+    // If it's a class or function, then return whether or not the argument is an instance of the class or function
+    if (typeof rule === "function") return arg instanceof rule;
 
     let lastCharacter = rule.charAt(rule.length - 1);
     let nullable = lastCharacter == "?";
@@ -28,6 +28,7 @@ function validateArg(rule, arg) {
     switch (unquestioned) {
         case "number":
         case "string":
+        case "symbol":
         case "boolean":
         case "bigint":
             return typeof arg === unquestioned;
@@ -67,7 +68,7 @@ function validate(schema, args) {
         const rule = schema[ind];
         // If it's an array, only one rule has to match
         if (Array.isArray(rule)) {
-            for (let miniRule of rule) if (validateArg(miniRule, arg)) return true;
+            for (let miniRule of rule) {console.log("RULE: " + miniRule);if (validateArg(miniRule, arg)) return true;}
             return false;
         }
         if (!validateArg(rule, arg)) return false;

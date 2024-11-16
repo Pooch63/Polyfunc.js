@@ -1,5 +1,5 @@
 {
-  "name": "@pooch63/polytech",
+  "name": "@pooch63/polyfunc.js",
   "version": "0.1.0",
   "description": "A library to create polymorphic functions without the headache of TypeScript unions",
   "main": "polytech.js",
@@ -12,6 +12,7 @@
   },
   "keywords": [
     "polymorphism",
+    "functions",
     "typescript",
     "javascript",
     "validation",
@@ -20,7 +21,7 @@
   ],
   "author": "Kiyaan Pillai",
   "license": "MIT",
-  "types": "./polytech.d.ts",
+  "types": "./polyfunc.d.ts",
   "bugs": {
     "url": "https://github.com/Pooch63/Polytech/issues"
   },
