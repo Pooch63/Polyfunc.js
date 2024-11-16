@@ -19,18 +19,26 @@ function test(a, b, c) {
         .evaluate(a, b, c);
 }
 test({}); // "one argument"
-test(null, 1); // "anything followed by number"
-test([], 3, ""); // "three arguments"
+test(null, 2); // "anything followed by number"
+test([], "", 3); // "three arguments"
 ```
 
 Know that once a pattern is matched, the whole chain terminates. So,
 ```javascript
 let matcher = Poly.match('number').set(() => console.log("number"))
-    .match('*').set(() => console.log("anything else"))
+    .match('*').set(() => console.log("anything else"));
 
 matcher.evaluate(0); // "number"
 matcher.evaluate(""); // "anything else"
 ```
+
+Also, Polyfunc does have type safety for TypeScript users. If you want to specify a return type other than `any`,
+you can specify that in a generic parameter on the first call. Here's the first example, but safer:
+```typescript
+let matcher = Poly.match<string>('number').set(() => console.log("number"))
+    .match('*').set(() => console.log("anything else"))
+```
+
 
 Now, here are the types you can match:
 
