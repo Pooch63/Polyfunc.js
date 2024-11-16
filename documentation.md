@@ -32,11 +32,15 @@ matcher.evaluate(0); // "number"
 matcher.evaluate(""); // "anything else"
 ```
 
-Also, Polyfunc does have type safety for TypeScript users. If you want to specify a return type other than `any`,
-you can specify that in a generic parameter on the first call. Here's the first example, but safer:
+Also, Polyfunc does have type safety for TypeScript users. If using TypeScript, you MUST
+specify the chain's return type on the first call. Here's the first example written in TypeScript.
+Note: It could be made safer by adding a fallback function.
 ```typescript
-let matcher = Poly.match<string>('number').set(() => console.log("number"))
-    .match('*').set(() => console.log("anything else"))
+let matcher = Poly.match<string>('number').set(() => "number")
+    .match('*').set(() => "anything else");
+
+console.log(matcher.evaluate(0)); // "number"
+console.log(matcher.evaluate("")); // "anything else
 ```
 
 
