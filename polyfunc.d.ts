@@ -27,8 +27,8 @@ declare module 'polyfunc' {
         set<ReturnType extends DefaultReturn = DefaultReturn>(func: (...args: any[]) => ReturnType): Polyfunc<DefaultReturn>;
     }
 
-    class Polyfunc<ReturnType = any> {
-        static match<ReturnType = any>(...args: Arrayable<ArgumentType>[]): Matched<ReturnType>;
+    class Polyfunc<ReturnType> {
+        static match<ReturnType>(...args: Arrayable<ArgumentType>[]): Matched<ReturnType>;
         match(...args: Arrayable<ArgumentType>[]): Matched<ReturnType>;
         fallback(func: (...args: any[]) => any): Polyfunc;
         evaluate(...args: any[]): ReturnType;
