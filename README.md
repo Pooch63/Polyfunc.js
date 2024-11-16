@@ -20,7 +20,7 @@ function a(b: number | string | boolean | SomeClass, c?: number | string, d?: bo
 ```
 
 That is _disgusting_. This is *absolutely* not readable. We need a new solution.
-Enter polyfunc.js. Here's how you would handle that in TypeScript:
+Enter polyfunc.js. Here's how you would handle that with the library:
 
 ```typescript
 import Poly from "polyfunc";
@@ -38,9 +38,9 @@ function a(b: number | string | boolean | SomeClass, c?: number | string, d?: bo
 }
 ```
 
-Yeah, WAY cleaner. Sadly, you still have to do that weird union thing for the function parameters -- no matter how
+Yeah, WAY cleaner. Sadly, you still have to do that weird union thing for the function parameters - no matter how
 clean Polyfunc.js is, it can't change the TypeScript type rules. But, no more of that weird control logic
-to achieve some *basic* polymorphism!
+to achieve even *basic* polymorphism!
 
 And, that's pretty much it. If it wasn't clear from usage, or you need a list of full type validation capabilities,
 you can see how to use this library in `documentation.md`.

@@ -50,12 +50,28 @@ Here are some differences:
     - `class` matches classes and NOT functions.
     - `functional` matches both functions AND classes.
 
-
 Add a question mark to any type to say that it is allowed to be nullable. E.g., `.match("number").set(...).evaluate()` will not call the function, but
 `.match("number?").set(...).evaluate()` will.
 
 Add multiple types to an array in order to match at least one of them to a value. E.g.,
 `.match(["number", "string"]).set(...).evaluate(1)` calls the same function as if you had said `..evaluate("some string")`
+
+You can also pass in your own class or function, and Polyfunc will check whether or not a value is an instance of that class or function.
+E.g.,
+```typescript
+class MyClass {}
+
+Poly.match(MyClass).set(() => "Custom class given").evaluate(new MyClass()); // returns "Custom class given"
+```
+
+And, you can obviously use this in an array of multiple types. E.g.,
+```typescript
+class MyClass {}
+
+let matcher = Poly.match([MyClass, 'number']).set(() => "Class or number given");
+matcher.evaluate(new MyClass()); // returns "Class or number given"
+matcher.evaluate(4); // returns "Class or number given"
+```
 
 Lastly, you can use `.fallback` to specify a default function if no patterns matched. E.g.,
 ```typescript
