@@ -124,13 +124,21 @@ class Polyfunc {
     }
 
     /**
+    * @param  {...any} args
+    * @return {Match}
+    */
+   static match(...args) {
+        let wrapper = new Polyfunc();
+        return wrapper.match(...args);
+    };
+    /**
      * @param  {...any} args
      * @return {Match}
      */
     match(...args) {
         return new Match(this, args);
     };
-
+    
     fallback(func) {
         if (!isExclusiveFunction(func)) {
             throw new Error(`${PACKAGE_NAME} fallback may only be a function.`);

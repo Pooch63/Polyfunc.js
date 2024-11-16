@@ -21,12 +21,17 @@ type Primitive = "string" | "symbol" | "number" | "boolean" | "bigint" | "array"
 type Arrayable<T> = T | T[];
 type ArgumentMatch = Primitive | /* Wildcard */ "*" | class | ((arg: any) => boolean);
 
-type Matched = {
-    set(func: (...args: any[]) => any): Polyfunc;
-}
+declare module 'polyfunc' {
+    type Matched = {
+        set(func: (...args: any[]) => any): Polyfunc;
+    }
 
-class Polyfunc {
-    match(...args: Arrayable<ArgumentMatch>[]): Matched;
-    fallback(func: (...args: any[]) => any): Polyfunc;
-    evaluate(...args: any[]): void;
+    class Polyfunc {
+        static match(...args: Arrayable<ArgumentMatch>[]): Matched;
+        match(...args: Arrayable<ArgumentMatch>[]): Matched;
+        fallback(func: (...args: any[]) => any): Polyfunc;
+        evaluate(...args: any[]): void;
+    }
+
+    export = Polyfunc;
 }
