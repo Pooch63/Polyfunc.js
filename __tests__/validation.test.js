@@ -1,43 +1,43 @@
 const { describe, test, expect } = require("@jest/globals");
-const Polytech = require("../polytech.js");
+const Polyfunc = require("../polytech.js");
 
 describe("Normal types work", () => {
     test("Number", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('number').set(() => "number!").
             evaluate(1)
         ).toBe("number!");
     });
     test("String", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('string').set(() => "string!").
             evaluate("hey")
         ).toBe("string!");
     });
     test("Boolean", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('boolean').set(() => "boolean!").
             evaluate(true)
         ).toBe("boolean!");
     });
     test("Bigint", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('bigint').set(() => "bigint!").
             evaluate(1n)
         ).toBe("bigint!");
     });
     test("Array", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('array').set(() => "array!").
             evaluate([])
         ).toBe("array!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('array').set(() => "array!").
             fallback(() => "nothing").
             evaluate({})
@@ -45,7 +45,7 @@ describe("Normal types work", () => {
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the array
         expect(
-            new Polytech().
+            new Polyfunc().
             match('array').set(() => "array!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -53,20 +53,20 @@ describe("Normal types work", () => {
     });
     test("Hash", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('hash').set(() => "hash!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('hash').set(() => "hash!").
             evaluate({})
         ).toBe("hash!");
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the hash
         expect(
-            new Polytech().
+            new Polyfunc().
             match('hash').set(() => "hash!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -74,20 +74,20 @@ describe("Normal types work", () => {
     });
     test("Object", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('object').set(() => "object!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("object!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('object').set(() => "object!").
             evaluate({})
         ).toBe("object!");
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the object
         expect(
-            new Polytech().
+            new Polyfunc().
             match('object').set(() => "object!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -95,19 +95,19 @@ describe("Normal types work", () => {
     });
     test("Nulled", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nulled!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(null)
         ).toBe("nulled!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(undefined)
@@ -115,25 +115,25 @@ describe("Normal types work", () => {
 
         // Make sure values that are randomly null in JS are not seen as null
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(0)
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate("")
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate({})
@@ -141,20 +141,20 @@ describe("Normal types work", () => {
     });
     test("Regular expressions", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('regexp').set(() => "regexp!").
             evaluate(/regexp/)
         ).toBe("regexp!");
 
         // Since typeof regexp is "object", make sure objects do NOT trigger the regexp
         expect(
-            new Polytech().
+            new Polyfunc().
             match('regexp').set(() => "regexp!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('regexp').set(() => "regexp!").
             fallback(() => "nothing").
             evaluate({})
@@ -162,12 +162,12 @@ describe("Normal types work", () => {
     });
     test("Functions", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match('function').set(() => "function!").
             evaluate(() => {})
         ).toBe("function!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('function').set(() => "function!").
             evaluate(new Function("function k() { return 1; }"))
         ).toBe("function!");
@@ -175,7 +175,7 @@ describe("Normal types work", () => {
         // Since typeof (class CLASS) is also "function", make sure classes don't trigger
         class K {}
         expect(
-            new Polytech().
+            new Polyfunc().
             match('function').set(() => "function!").
             fallback(() => "nothing").
             evaluate(K)
@@ -184,7 +184,7 @@ describe("Normal types work", () => {
     test("Value is a class", () => {
         class K {}
         expect(
-            new Polytech().
+            new Polyfunc().
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(K)
@@ -193,13 +193,13 @@ describe("Normal types work", () => {
         // Since the typeof function is the same as typeof class is the same as "function",
         // make sure callable functions don't trigger
         expect(
-            new Polytech().
+            new Polyfunc().
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(() => {})
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(new Function("function k() { this.z = 9; return 1; }"))
@@ -208,20 +208,20 @@ describe("Normal types work", () => {
     test("Functional", () => {
         class K {}
         expect(
-            new Polytech().
+            new Polyfunc().
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(K)
         ).toBe("functional!");
         
         expect(
-            new Polytech().
+            new Polyfunc().
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(() => {})
         ).toBe("functional!");
         expect(
-            new Polytech().
+            new Polyfunc().
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(new Function("function k() { this.z = 9; return 1; }"))
@@ -231,7 +231,7 @@ describe("Normal types work", () => {
     test("Arguments instanceof classes", () => {
         class k {};
         expect(
-            new Polytech().
+            new Polyfunc().
             match(k).set(() => "class!").
             evaluate(new k())
         ).toBe("class!");
@@ -241,13 +241,13 @@ describe("Normal types work", () => {
 describe("Non-nullable types don't validate null", () => {
     test("Strings", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("string").set(() => "string!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("string").set(() => "string :)").
             fallback(() => "nothing").
             evaluate(null)
@@ -256,13 +256,13 @@ describe("Non-nullable types don't validate null", () => {
 
     test("Object", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("object").set(() => "object!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("object").set(() => "object!").
             fallback(() => "nothing").
             evaluate(null)
@@ -271,13 +271,13 @@ describe("Non-nullable types don't validate null", () => {
 
     test("Regexp", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("regexp").set(() => "regexp!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("regexp").set(() => "regexp!").
             fallback(() => "nothing").
             evaluate(null)
@@ -286,29 +286,29 @@ describe("Non-nullable types don't validate null", () => {
 
     test("Class", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("class").set(() => "class!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nothing");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("class").set(() => "class? :)").
             fallback(() => "nothing").
             evaluate(null)
         ).toBe("nothing");
     });
-})
+});
 
 describe("Nullable types work", () => {
     test("Strings", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("string?").set(() => "string? :)").
             evaluate("string")
         ).toBe("string? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("string?").set(() => "string? :)").
             evaluate(null)
         ).toBe("string? :)");
@@ -316,47 +316,47 @@ describe("Nullable types work", () => {
 
     test("Array", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("array?").set(() => "array? :)").
             evaluate()
         ).toBe("array? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("array?").set(() => "array? :)").
             evaluate(null)
         ).toBe("array? :)");
 
         expect(
-            new Polytech().
+            new Polyfunc().
             match("array?").set(() => "array? :)").
             evaluate([])
         ).toBe("array? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("array?").set(() => "array? :)").
             evaluate(["this is an element that is not null"])
         ).toBe("array? :)");
     });
     test("Hash", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("hash?").set(() => "hash? :)").
             evaluate()
         ).toBe("hash? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("hash?").set(() => "hash? :)").
             evaluate(null)
         ).toBe("hash? :)");
     });
     test("Object", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("object?").set(() => "object? :)").
             evaluate()
         ).toBe("object? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("object?").set(() => "object? :)").
             evaluate(null)
         ).toBe("object? :)");
@@ -364,12 +364,12 @@ describe("Nullable types work", () => {
 
     test("Regexp", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("regexp?").set(() => "regexp? :)").
             evaluate(/regexp/)
         ).toBe("regexp? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("regexp?").set(() => "regexp? :)").
             evaluate(null)
         ).toBe("regexp? :)");
@@ -377,14 +377,16 @@ describe("Nullable types work", () => {
 
     test("Class", () => {
         expect(
-            new Polytech().
+            new Polyfunc().
             match("class?").set(() => "class? :)").
             evaluate()
         ).toBe("class? :)");
         expect(
-            new Polytech().
+            new Polyfunc().
             match("class?").set(() => "class? :)").
             evaluate(null)
         ).toBe("class? :)");
     });
-})
+});
+
+describe("Multiple rules work", () => {});

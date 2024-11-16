@@ -1,7 +1,7 @@
 /**
  * Example usage:
     function test(...args) {
-        Polytech.match('string').set(() => console.log("string was provided"))
+        Polyfunc.match('string').set(() => console.log("string was provided"))
             .match('null').set(() => console.log("null was provided"))
             .match('*', ['number', 'boolean']).set(() => console.log("*, number | boolean was provided"))
             .fallback(() => console.log("whoops!")
@@ -22,11 +22,11 @@ type Arrayable<T> = T | T[];
 type ArgumentMatch = Primitive | /* Wildcard */ "*" | class | ((arg: any) => boolean);
 
 type Matched = {
-    set(func: (...args: any[]) => any): Polytech;
+    set(func: (...args: any[]) => any): Polyfunc;
 }
 
-class Polytech {
+class Polyfunc {
     match(...args: Arrayable<ArgumentMatch>[]): Matched;
-    fallback(func: (...args: any[]) => any): Polytech;
+    fallback(func: (...args: any[]) => any): Polyfunc;
     evaluate(...args: any[]): void;
 }

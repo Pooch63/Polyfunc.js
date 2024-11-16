@@ -1,4 +1,4 @@
-const PACKAGE_NAME = "Polytech";
+const PACKAGE_NAME = "Polyfunctional";
 
 function isClass(obj) {
     return typeof obj === "function" && /^class\s/.test(obj.toString());
@@ -78,7 +78,7 @@ function validate(schema, args) {
 class Match {
     /**
      * 
-     * @param {Polytech} validator 
+     * @param {Polyfunc} validator 
      * @param {any[]} schema
      */
     constructor(validator, schema) {
@@ -107,7 +107,7 @@ class Match {
         return validate(this.schema, args);
     }
 }
-class Polytech {
+class Polyfunc {
     constructor() {
         // Tests is of type Match[]
         this.tests = [];
@@ -148,4 +148,4 @@ class Polytech {
     };
 }
 
-module.exports = Polytech;
+module.exports = Polyfunc;
