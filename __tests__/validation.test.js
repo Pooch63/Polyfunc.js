@@ -4,40 +4,40 @@ const Polyfunc = require("../polyfunc.js");
 describe("Normal types work", () => {
     test("Number", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('number').set(() => "number!").
             evaluate(1)
         ).toBe("number!");
     });
     test("String", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('string').set(() => "string!").
             evaluate("hey")
         ).toBe("string!");
     });
     test("Boolean", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('boolean').set(() => "boolean!").
             evaluate(true)
         ).toBe("boolean!");
     });
     test("Bigint", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('bigint').set(() => "bigint!").
             evaluate(1n)
         ).toBe("bigint!");
     });
     test("Array", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('array').set(() => "array!").
             evaluate([])
         ).toBe("array!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('array').set(() => "array!").
             fallback(() => "nothing").
             evaluate({})
@@ -45,7 +45,7 @@ describe("Normal types work", () => {
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the array
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('array').set(() => "array!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -53,20 +53,20 @@ describe("Normal types work", () => {
     });
     test("Hash", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('hash').set(() => "hash!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('hash').set(() => "hash!").
             evaluate({})
         ).toBe("hash!");
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the hash
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('hash').set(() => "hash!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -74,20 +74,20 @@ describe("Normal types work", () => {
     });
     test("Object", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('object').set(() => "object!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("object!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('object').set(() => "object!").
             evaluate({})
         ).toBe("object!");
 
         // Since typeof regexp is "object", make sure regexp does NOT trigger the object
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('object').set(() => "object!").
             fallback(() => "nothing").
             evaluate(/regexp/)
@@ -95,19 +95,19 @@ describe("Normal types work", () => {
     });
     test("Nulled", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate()
         ).toBe("nulled!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(null)
         ).toBe("nulled!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(undefined)
@@ -115,25 +115,25 @@ describe("Normal types work", () => {
 
         // Make sure values that are randomly null in JS are not seen as null
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate(0)
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate("")
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('nulled').set(() => "nulled!").
             fallback(() => "nothing").
             evaluate({})
@@ -141,20 +141,20 @@ describe("Normal types work", () => {
     });
     test("Regular expressions", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('regexp').set(() => "regexp!").
             evaluate(/regexp/)
         ).toBe("regexp!");
 
         // Since typeof regexp is "object", make sure objects do NOT trigger the regexp
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('regexp').set(() => "regexp!").
             fallback(() => "nothing").
             evaluate([])
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('regexp').set(() => "regexp!").
             fallback(() => "nothing").
             evaluate({})
@@ -162,12 +162,12 @@ describe("Normal types work", () => {
     });
     test("Functions", () => {
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('function').set(() => "function!").
             evaluate(() => {})
         ).toBe("function!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('function').set(() => "function!").
             evaluate(new Function("function k() { return 1; }"))
         ).toBe("function!");
@@ -175,7 +175,7 @@ describe("Normal types work", () => {
         // Since typeof (class CLASS) is also "function", make sure classes don't trigger
         class K {}
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('function').set(() => "function!").
             fallback(() => "nothing").
             evaluate(K)
@@ -184,7 +184,7 @@ describe("Normal types work", () => {
     test("Value is a class", () => {
         class K {}
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(K)
@@ -193,13 +193,13 @@ describe("Normal types work", () => {
         // Since the typeof function is the same as typeof class is the same as "function",
         // make sure callable functions don't trigger
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(() => {})
         ).toBe("nothing");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('class').set(() => "class!").
             fallback(() => "nothing").
             evaluate(new Function("function k() { this.z = 9; return 1; }"))
@@ -208,20 +208,20 @@ describe("Normal types work", () => {
     test("Functional", () => {
         class K {}
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(K)
         ).toBe("functional!");
         
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(() => {})
         ).toBe("functional!");
         expect(
-            new Polyfunc().
+            Polyfunc.
             match('functional').set(() => "functional!").
             fallback(() => "nothing").
             evaluate(new Function("function k() { this.z = 9; return 1; }"))

@@ -1,14 +1,14 @@
 {
-  "name": "@pooch63/polyfunc.js",
+  "name": "polyfunc",
   "version": "0.1.0",
   "description": "A library to create polymorphic functions without the headache of TypeScript unions",
-  "main": "polytech.js",
+  "main": "polyfunc.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pooch63/Polytech.git"
+    "url": "git+https://github.com/Pooch63/Polyfunc.js.git"
   },
   "keywords": [
     "polymorphism",
@@ -23,9 +23,9 @@
   "license": "MIT",
   "types": "./polyfunc.d.ts",
   "bugs": {
-    "url": "https://github.com/Pooch63/Polytech/issues"
+    "url": "https://github.com/Pooch63/Polyfunc.js/issues"
   },
-  "homepage": "https://github.com/Pooch63/Polytech#readme",
+  "homepage": "https://github.com/Pooch63/Polyfunc.js#readme",
   "dependencies": {
     "jest": "^29.7.0"
   }
