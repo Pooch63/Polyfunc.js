@@ -1,6 +1,6 @@
 {
   "name": "polyfunc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A library to create polymorphic functions without the headache of TypeScript unions",
   "main": "polyfunc.js",
   "scripts": {

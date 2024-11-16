@@ -9,13 +9,13 @@ function a(b: boolean, c: number);
 function a(b: SomeClass, c: string, d: boolean);
 function a(b: number | string | boolean | SomeClass, c?: number | string, d?: boolean) {
     if (c == undefined && d == undefined) {
-        if (typeof b == "number") /// One thing
-        if (typeof b == "string") // Second thing
+        if (typeof b == "number") return "first thing";
+        if (typeof b == "string") return "second thing";
     }
     else if (d == undefined) {
-        if (typeof b == "boolean" && typeof c == "number") // Third thing
+        if (typeof b == "boolean" && typeof c == "number") return "third thing";
     }
-    else if (b instanceof SomeClass && typeof c == "string" && typeof d == "boolean") // Fourth thing
+    else if (b instanceof SomeClass && typeof c == "string" && typeof d == "boolean") return "fourth thing";
 }
 ```
 
@@ -30,7 +30,7 @@ function a(b: string);
 function a(b: boolean, c: number);
 function a(b: SomeClass, c: string, d: boolean);
 function a(b: number | string | boolean | SomeClass, c?: number | string, d?: boolean) {
-    Poly.match('number').set(() => "first thing")
+    return Poly.match('number').set(() => "first thing")
         .match('string').set(() => "second thing")
         .match('boolean', 'number').set(() => "third thing")
         .match(SomeClass, 'string', 'boolean').set(() => "fourth thing")
