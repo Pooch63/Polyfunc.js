@@ -17,21 +17,21 @@
 
  */
 
-type Primitive = "string" | "symbol" | "number" | "boolean" | "bigint" | "array" | "hash" | "object" | "nulled" | "regexp" | "function" | "class" | "functional"
+type ArgumentBaseType = "string" | "symbol" | "number" | "boolean" | "bigint" | "array" | "hash" | "object" | "nulled" | "regexp" | "function" | "class" | "functional"
                 | "string?" | "symbol?" | "number?" | "boolean?" | "bigint?" | "array?" | "hash?" | "object?" | "nulled?" | "regexp?" | "function?" | "class?" | "functional?";
 type Arrayable<T> = T | T[];
-type ArgumentMatch = Primitive | /* Wildcard */ "*" | class | ((arg: any) => boolean);
+type ArgumentType = ArgumentBaseType | /* Any class */ { new(...args: any[]): any; };
 
 declare module 'polyfunc' {
-    type Matched = {
-        set(func: (...args: any[]) => any): Polyfunc;
+    type Matched<DefaultReturn> = {
+        set<ReturnType extends DefaultReturn = DefaultReturn>(func: (...args: any[]) => ReturnType): Polyfunc<DefaultReturn>;
     }
 
-    class Polyfunc {
-        static match(...args: Arrayable<ArgumentMatch>[]): Matched;
-        match(...args: Arrayable<ArgumentMatch>[]): Matched;
+    class Polyfunc<ReturnType = any> {
+        static match<ReturnType = any>(...args: Arrayable<ArgumentType>[]): Matched<ReturnType>;
+        match(...args: Arrayable<ArgumentType>[]): Matched<ReturnType>;
         fallback(func: (...args: any[]) => any): Polyfunc;
-        evaluate(...args: any[]): void;
+        evaluate(...args: any[]): ReturnType;
     }
 
     export = Polyfunc;
