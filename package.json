@@ -1,6 +1,6 @@
 {
   "name": "polyfunc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A library to create polymorphic functions without the headache of TypeScript unions",
   "main": "polyfunc.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "url": "https://github.com/Pooch63/Polyfunc.js/issues"
   },
   "homepage": "https://github.com/Pooch63/Polyfunc.js#readme",
-  "dependencies": {
+  "devDependencies": {
     "jest": "^29.7.0"
   }
 }
